@@ -52,8 +52,10 @@ function CabView:onLoad(savegame)
 		for index, cameraBase in pairs(self.spec_enterable.cameras) do
 			if cameraBase.isInside then
 				spec.indoorCameraNode = cameraBase.cameraNode or cameraBase.cameraPositionNode
-				spec.originalRotX = cameraBase.rotX
-				spec.originalRotY = cameraBase.rotY%(2*math.pi)
+				
+				spec.originalRotX = cameraBase.origRotX
+				spec.originalRotY = cameraBase.origRotY%(2*math.pi)
+				spec.originalRotZ = cameraBase.origRotZ
 				spec.rotationOffset = spec.originalRotY - math.pi
 				
 				local settingsFovY = g_gameSettings:getValue("fovY")	
@@ -100,7 +102,7 @@ end
 function CabView:vehicleCameraUpdate(superFunc, dt)
 	-- CATCH AND ATTEMPT TO FIX THIS OCCASSIONAL ERROR
 	if self.rotX==nil or self.rotY==nil then
-		print("CABVIEW: Catch Error...")
+		--print("CABVIEW: Catch Error...")
 		self.rotX = self.origRotX
 		self.rotY = self.origRotY
 	end
@@ -123,8 +125,9 @@ function CabView:vehicleCameraUpdate(superFunc, dt)
 	-- RESET VIEW IF REQUIRED
 	spec = self.vehicle.spec_cabView
 	if self.isInside and spec.resetView then
-		-- self.rotX = spec.originalRotX
-		-- self.rotY = spec.originalRotY
+		self.rotX = spec.originalRotX
+		self.rotY = spec.originalRotY
+		self.rotZ = spec.originalRotZ
 		spec.resetView = false
 	end
 
