@@ -123,8 +123,8 @@ function CabView:vehicleCameraUpdate(superFunc, dt)
 	-- RESET VIEW IF REQUIRED
 	spec = self.vehicle.spec_cabView
 	if self.isInside and spec.resetView then
-		self.rotX = spec.originalRotX
-		self.rotY = spec.originalRotY
+		-- self.rotX = spec.originalRotX
+		-- self.rotY = spec.originalRotY
 		spec.resetView = false
 	end
 
