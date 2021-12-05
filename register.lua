@@ -9,7 +9,8 @@ for vehicleName, vehicleType in pairs(g_vehicleTypeManager.types) do
 	if  SpecializationUtil.hasSpecialization(Drivable,  vehicleType.specializations) and
 		SpecializationUtil.hasSpecialization(Motorized, vehicleType.specializations) and
 		SpecializationUtil.hasSpecialization(Enterable, vehicleType.specializations) and
-		not SpecializationUtil.hasSpecialization(ConveyorBelt, vehicleType.specializations) then
-			g_vehicleTypeManager:addSpecialization(vehicleName, 'cabView') 
+		SpecializationUtil.hasSpecialization(Dashboard, vehicleType.specializations) then
+			g_vehicleTypeManager:addSpecialization(vehicleName, 'cabView') 	
+		print("INSTALLED: "..vehicleName)
 	end
 end
