@@ -11,6 +11,6 @@ for vehicleName, vehicleType in pairs(g_vehicleTypeManager.types) do
 		SpecializationUtil.hasSpecialization(Enterable, vehicleType.specializations) and
 		SpecializationUtil.hasSpecialization(Dashboard, vehicleType.specializations) then
 			g_vehicleTypeManager:addSpecialization(vehicleName, 'cabView') 	
-		print("INSTALLED: "..vehicleName)
+		--print("INSTALLED: "..vehicleName)
 	end
 end
