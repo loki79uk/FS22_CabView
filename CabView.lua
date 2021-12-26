@@ -26,7 +26,14 @@ function CabView:onRegisterActionEvents(isActiveForInput, isActiveForInputIgnore
 			g_inputBinding:setActionEventTextVisibility(actionEventId, false)
 			_, actionEventId = InputBinding.registerActionEvent(g_inputBinding, 'CABVIEW_LEAN_FORWARD', self, CabView.KeyDown_LeanForward, true, true, false, true)
 			g_inputBinding:setActionEventTextPriority(actionEventId, GS_PRIO_VERY_LOW)
-			g_inputBinding:setActionEventTextVisibility(actionEventId, false)	
+			g_inputBinding:setActionEventTextVisibility(actionEventId, false)
+			
+			_, actionEventId = self:addActionEvent(spec.actionEvents, "CABVIEW_LEAN_TOGGLE", self, CabView.KeyDown_LeanToggle, true, true, false, true, true, nil )
+			g_inputBinding:setActionEventTextPriority(actionEventId, GS_PRIO_VERY_LOW)
+			g_inputBinding:setActionEventTextVisibility(actionEventId, false)
+			_, actionEventId = InputBinding.registerActionEvent(g_inputBinding, 'CABVIEW_LEAN_TOGGLE', self, CabView.KeyDown_LeanToggle, true, true, false, true)
+			g_inputBinding:setActionEventTextPriority(actionEventId, GS_PRIO_VERY_LOW)
+			g_inputBinding:setActionEventTextVisibility(actionEventId, false)
 		end
 	end
 end
@@ -92,6 +99,15 @@ function CabView:KeyDown_LeanForward(actionName, inputValue)
 		else
 			--print("lean backward")
 			CabView.leanButtonPressed = false
+		end
+	end
+end
+
+function CabView:KeyDown_LeanToggle(actionName, inputValue)
+	--print("LEAN TOGGLE")
+	if CabView.isInsideCamera then
+		if inputValue == 1 then
+			CabView.leanButtonPressed = not CabView.leanButtonPressed
 		end
 	end
 end
