@@ -32,7 +32,7 @@ Anmerkung:
 - Gelegentlich gibt es einige Ausschnitte an Fahrzeugen mit kleinen Kabinen. Ich habe den Anlehnungsbereich bei bestimmten Fahrzeugen ohne Heckscheibe (z.B. PKW und LKW) eingeschränkt.
 ]]>
 </de>
-<fr><![CDATA[Ce mod simple est conçu pour ajouter du réalisme à la vue à la première personne de l'intérieur des véhicules.  Il permet désormais une meilleure vue pour faire marche arrière ou attacher des outils en permettant au joueur de se pencher autour de la cabine dans n'importe quelle direction.
+<fr><![CDATA[Ce mod simple est conçu pour ajouter du réalisme à la vue interne des véhicules.  Il permet d'obtenir un meilleur point de vue depuis la cabine lors des marches arrière ou sur les outils en permettant au joueur de se pencher naturellement dans n'importe quelle direction.
 
 Caractéristiques:
 - Inclinaison complète autorisée à l'intérieur de la cabine pour une meilleure vue depuis les fenêtres (la touche par défaut est SHIFT)
@@ -73,7 +73,7 @@ Note:
 		<text name="input_CABVIEW_LEAN_TOGGLE">
 			<en>Lean Forwards (Toggle)</en>
 			<de>Blick nach vorne lehnen (Umschalten)</de>
-			<fr>Se pencher en avant (Basculer)</fr>
+			<fr>Se pencher en avant (permanent)</fr>
 		</text>
 	</l10n>
 
