@@ -64,13 +64,15 @@ function CabView:onLoad(savegame)
 				spec.originalRotY = cameraBase.origRotY%(2*math.pi)
 				spec.originalRotZ = cameraBase.origRotZ
 				spec.rotationOffset = spec.originalRotY - math.pi
-			end
-			
-			--reset all vehicle camreas to the set value
-			local settingsFovY = g_gameSettings:getValue("fovY")	
-			if cameraBase.fovY ~= nil and cameraBase.fovY ~= settingsFovY then
-				cameraBase.fovYBackup = nil
-				setFovY(cameraBase.cameraNode, settingsFovY)
+				
+				local settingsFovY = g_gameSettings:getValue("fovY")	
+				if cameraBase.fovY ~= nil and cameraBase.fovY ~= settingsFovY then
+					cameraBase.fovYBackup = nil
+					setFovY(cameraBase.cameraNode, settingsFovY)
+					-- print(self:getFullName())
+					-- print("Set camera fov to " .. tostring(math.deg(settingsFovY)))
+				end
+				
 			end
 		end
 	end
