@@ -1,5 +1,8 @@
 CabView = {}
 
+CabView.modName = g_currentModName
+CabView.specName = ("spec_%s.cabView"):format(g_currentModName)
+
 function CabView.prerequisitesPresent(specializations)
 	return SpecializationUtil.hasSpecialization(Enterable, specializations)
 end
@@ -13,7 +16,7 @@ end
 
 function CabView:onRegisterActionEvents(isActiveForInput, isActiveForInputIgnoreSelection)
 	if self.isClient then
-		local spec = self['spec_FS22_CabView.cabView']
+		local spec = self[CabView.specName]
 		self:clearActionEventsTable(spec.actionEvents)
 
 		if isActiveForInputIgnoreSelection then
@@ -37,7 +40,7 @@ function CabView:onRegisterActionEvents(isActiveForInput, isActiveForInputIgnore
 end
 
 function CabView:onLoad(savegame)
-	local spec = self['spec_FS22_CabView.cabView']
+	local spec = self[CabView.specName]
 	spec.vehicleId	= self.rootNode
 	
 	--RESTRICT LEANING OUT OF BACK WINDOW FOR THESE VEHICLES
@@ -78,7 +81,7 @@ end
 
 function CabView:onEnterVehicle(isControlling, playerStyle, farmId)
 	if isControlling then
-		local spec = self['spec_FS22_CabView.cabView']
+		local spec = self[CabView.specName]
 		spec.resetView = true
 		spec.leanButtonPressed = false
 		spec.lean = 0
@@ -87,14 +90,14 @@ end
 
 function CabView:onLeaveVehicle(isControlling, playerStyle, farmId)
 	-- print("LEAVING VEHICLE")
-	local spec = self['spec_FS22_CabView.cabView']
+	local spec = self[CabView.specName]
 	spec.leanButtonPressed = false
 	spec.lean = 0
 end
 
 function CabView:KeyDown_LeanForward(actionName, inputValue)
 	-- print("LEAN")
-	local spec = self['spec_FS22_CabView.cabView']
+	local spec = self[CabView.specName]
 	if spec then
 		if inputValue == 1 then
 			-- print("lean forward")
@@ -108,7 +111,7 @@ end
 
 function CabView:KeyDown_LeanToggle(actionName, inputValue)
 	-- print("LEAN TOGGLE")
-	local spec = self['spec_FS22_CabView.cabView']
+	local spec = self[CabView.specName]
 	if spec then
 		if inputValue == 1 then
 			spec.leanButtonPressed = not spec.leanButtonPressed
@@ -127,7 +130,7 @@ function CabView:vehicleCameraUpdate(superFunc, dt)
 	end
 
 	-- RETURN NORMAL FUNCTION WHEN CAB VIEW IS NOT INSTALLED
-	local spec = self.vehicle['spec_FS22_CabView.cabView']
+	local spec = self.vehicle[CabView.specName]
 	if not spec then
 		return superFunc(self, dt)
 	end
