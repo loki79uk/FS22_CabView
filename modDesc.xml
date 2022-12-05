@@ -54,11 +54,11 @@ Changelog:
 v1.0.1.0 - Mis à jour pour fonctionner avec la version 1.4.1.0
 ]]>
 </fr>
-<cz><![CDATA[Tento mod je navržen tak, aby přidal na realismu při pohledu uvnitř z vozidel. Nyní umožňuje lepší výhled při couvání nebo připojování nářadí tím, že umožňuje hráči se naklánět v kabině v libovolném směru.
+<cz><![CDATA[Tento mod je navržen tak, aby přidal realismus pohledu první osoby zevnitř vozidel. Nyní umožňuje lepší výhled při couvání nebo připojování nářadí tím, že umožňuje hráči naklánět se kolem kabiny v libovolném směru.
 
-Obsahuje:
+Funkce:
 - Úplné naklonění uvnitř kabiny pro lepší výhled z oken (výchozí klávesa je SHIFT)
-- Otočení hlavy je omezeno +/-180 stupňů pro pohled ze zadního okna
+- Otáčení je omezeno +/-180 stupňů při otáčení pro pohled ze zadního okna
 - Je přidáno malé množství pohybu kamery pro simulaci naklánění při pohledu přes rameno
 - Všechny kamery v interiéru vozidla jsou nastaveny na „zorné pole“, které je definováno v nastavení hry
 
@@ -91,13 +91,13 @@ Poznámka:
 			<en>Lean Forwards</en>
 			<de>Blick nach vorne lehnen</de>
 			<fr>Se pencher en avant</fr>
-			<cz>Náklon</cz>
+			<cz>Naklonit se dopředu</cz>
 		</text>
 		<text name="input_CABVIEW_LEAN_TOGGLE">
 			<en>Lean Forwards (Toggle)</en>
 			<de>Blick nach vorne lehnen (Umschalten)</de>
 			<fr>Se pencher en avant (permanent)</fr>
-			<cz>Náklon (přepnout)</cz>
+			<cz>Naklonit se dopředu (přepnout)</cz>
 		</text>
 	</l10n>
 
