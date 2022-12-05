@@ -6,6 +6,7 @@
         <en>Realistic Cab View</en>
         <de>Realistische Kabinenansicht</de>
         <fr>Vue Réaliste De La Cabine</fr>
+	<cz>Realistický pohled v kabině</cz>
     </title>
     <description>
 <en><![CDATA[This mod is designed to add realism to the first person view from inside vehicles.  It now allows a better view for reversing or attaching implements by allowing the player to lean around the cab in any direction.
@@ -53,6 +54,18 @@ Changelog:
 v1.0.1.0 - Mis à jour pour fonctionner avec la version 1.4.1.0
 ]]>
 </fr>
+<cz><![CDATA[Tento mod je navržen tak, aby přidal na realismu při pohledu uvnitř z vozidel. Nyní umožňuje lepší výhled při couvání nebo připojování nářadí tím, že umožňuje hráči se naklánět v kabině v libovolném směru.
+
+Obsahuje:
+- Úplné naklonění uvnitř kabiny pro lepší výhled z oken (výchozí klávesa je SHIFT)
+- Otočení hlavy je omezeno +/-180 stupňů pro pohled ze zadního okna
+- Je přidáno malé množství pohybu kamery pro simulaci naklánění při pohledu přes rameno
+- Všechny kamery v interiéru vozidla jsou nastaveny na „zorné pole“, které je definováno v nastavení hry
+
+Poznámka:
+- Na vozidlech s malými kabinami občas dochází k ořezávání. Omezil jsem rozsah náklonu u některých vozidel bez zadních oken (např. osobní a nákladní automobily).
+]]>
+</cz>
     </description>
 	
 	<multiplayer supported="true" />
@@ -78,11 +91,13 @@ v1.0.1.0 - Mis à jour pour fonctionner avec la version 1.4.1.0
 			<en>Lean Forwards</en>
 			<de>Blick nach vorne lehnen</de>
 			<fr>Se pencher en avant</fr>
+			<cz>Náklon</cz>
 		</text>
 		<text name="input_CABVIEW_LEAN_TOGGLE">
 			<en>Lean Forwards (Toggle)</en>
 			<de>Blick nach vorne lehnen (Umschalten)</de>
-			<fr>Se pencher en avant (permanent)</fr>
+			<fr>Se pencher en avant (Basculer)</fr>
+			<cz>Náklon (přepnout)</cz>
 		</text>
 	</l10n>
 
