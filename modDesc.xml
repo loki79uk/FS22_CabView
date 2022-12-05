@@ -6,7 +6,7 @@
         <en>Realistic Cab View</en>
         <de>Realistische Kabinenansicht</de>
         <fr>Vue Réaliste De La Cabine</fr>
-	<cz>Realistický pohled v kabině</cz>
+        <cz>Realistický pohled v kabině</cz>
     </title>
     <description>
 <en><![CDATA[This mod is designed to add realism to the first person view from inside vehicles.  It now allows a better view for reversing or attaching implements by allowing the player to lean around the cab in any direction.
@@ -96,7 +96,7 @@ Poznámka:
 		<text name="input_CABVIEW_LEAN_TOGGLE">
 			<en>Lean Forwards (Toggle)</en>
 			<de>Blick nach vorne lehnen (Umschalten)</de>
-			<fr>Se pencher en avant (Basculer)</fr>
+			<fr>Se pencher en avant (permanent)</fr>
 			<cz>Náklon (přepnout)</cz>
 		</text>
 	</l10n>
