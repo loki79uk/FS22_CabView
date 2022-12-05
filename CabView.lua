@@ -1,6 +1,7 @@
-CabView = {};
+CabView = {}
 
-addModEventListener(CabView);
+CabView.modName = g_currentModName
+CabView.specName = ("spec_%s.cabView"):format(g_currentModName)
 
 function CabView.prerequisitesPresent(specializations)
 	return SpecializationUtil.hasSpecialization(Enterable, specializations)
@@ -15,11 +16,11 @@ end
 
 function CabView:onRegisterActionEvents(isActiveForInput, isActiveForInputIgnoreSelection)
 	if self.isClient then
-		local spec = self.spec_cabView
+		local spec = self[CabView.specName]
 		self:clearActionEventsTable(spec.actionEvents)
 
 		if isActiveForInputIgnoreSelection then
-			--print("*** " .. self:getFullName() .. " ***")
+			-- print("*** " .. self:getFullName() .. " ***")
 			local actionEventId --(actionEventsTable, inputAction, target, callback, triggerUp, triggerDown, triggerAlways, startActive, callbackState, customIconName)
 			_, actionEventId = self:addActionEvent(spec.actionEvents, "CABVIEW_LEAN_FORWARD", self, CabView.KeyDown_LeanForward, true, true, false, true, true, nil )
 			g_inputBinding:setActionEventTextPriority(actionEventId, GS_PRIO_VERY_LOW)
@@ -39,7 +40,7 @@ function CabView:onRegisterActionEvents(isActiveForInput, isActiveForInputIgnore
 end
 
 function CabView:onLoad(savegame)
-	spec = self.spec_cabView
+	local spec = self[CabView.specName]
 	spec.vehicleId	= self.rootNode
 	
 	--RESTRICT LEANING OUT OF BACK WINDOW FOR THESE VEHICLES
@@ -47,7 +48,7 @@ function CabView:onLoad(savegame)
 	self.typeDesc == 'truck' or
 	self.typeName == 'carFillable' or
 	self.typeName == 'addOtherVehiclesHere' then
-		--print("Leaning RESTRICTED")
+		-- print("Leaning RESTRICTED")
 		spec.restrictLean = true
 	else
 		spec.restrictLean = false
@@ -64,13 +65,15 @@ function CabView:onLoad(savegame)
 				spec.originalRotY = cameraBase.origRotY%(2*math.pi)
 				spec.originalRotZ = cameraBase.origRotZ
 				spec.rotationOffset = spec.originalRotY - math.pi
-			end
-			
-			--reset all vehicle camreas to the set value
-			local settingsFovY = g_gameSettings:getValue("fovY")	
-			if cameraBase.fovY ~= nil and cameraBase.fovY ~= settingsFovY then
-				cameraBase.fovYBackup = nil
-				setFovY(cameraBase.cameraNode, settingsFovY)
+				
+				local settingsFovY = g_gameSettings:getValue("fovY")	
+				if cameraBase.fovY ~= nil and cameraBase.fovY ~= settingsFovY then
+					cameraBase.fovYBackup = nil
+					setFovY(cameraBase.cameraNode, settingsFovY)
+					-- print(self:getFullName())
+					-- print("Set camera fov to " .. tostring(math.deg(settingsFovY)))
+				end
+				
 			end
 		end
 	end
@@ -78,51 +81,57 @@ end
 
 function CabView:onEnterVehicle(isControlling, playerStyle, farmId)
 	if isControlling then
-		self.spec_cabView.resetView = true
-		CabView.leanButtonPressed = false
-		CabView.lean = 0
+		local spec = self[CabView.specName]
+		spec.resetView = true
+		spec.leanButtonPressed = false
+		spec.lean = 0
 	end
 end
 
 function CabView:onLeaveVehicle(isControlling, playerStyle, farmId)
-	--print("LEAVING VEHICLE")
-	CabView.leanButtonPressed = false
-	CabView.lean = 0
+	-- print("LEAVING VEHICLE")
+	local spec = self[CabView.specName]
+	spec.leanButtonPressed = false
+	spec.lean = 0
 end
 
 function CabView:KeyDown_LeanForward(actionName, inputValue)
-	--print("LEAN")
-	if CabView.isInsideCamera then
+	-- print("LEAN")
+	local spec = self[CabView.specName]
+	if spec then
 		if inputValue == 1 then
-			--print("lean forward")
-			CabView.leanButtonPressed = true
+			-- print("lean forward")
+			spec.leanButtonPressed = true
 		else
-			--print("lean backward")
-			CabView.leanButtonPressed = false
+			-- print("lean backward")
+			spec.leanButtonPressed = false
 		end
 	end
 end
 
 function CabView:KeyDown_LeanToggle(actionName, inputValue)
-	--print("LEAN TOGGLE")
-	if CabView.isInsideCamera then
+	-- print("LEAN TOGGLE")
+	local spec = self[CabView.specName]
+	if spec then
 		if inputValue == 1 then
-			CabView.leanButtonPressed = not CabView.leanButtonPressed
+			spec.leanButtonPressed = not spec.leanButtonPressed
 		end
 	end
 end
 
 
 function CabView:vehicleCameraUpdate(superFunc, dt)
+
 	-- CATCH AND ATTEMPT TO FIX THIS OCCASSIONAL ERROR
 	if self.rotX==nil or self.rotY==nil then
-		--print("CABVIEW: Catch Error...")
+		-- print("CABVIEW: Catch Error...")
 		self.rotX = self.origRotX
 		self.rotY = self.origRotY
 	end
 
 	-- RETURN NORMAL FUNCTION WHEN CAB VIEW IS NOT INSTALLED
-	if self.vehicle.spec_cabView == nil then
+	local spec = self.vehicle[CabView.specName]
+	if not spec then
 		return superFunc(self, dt)
 	end
 
@@ -130,15 +139,15 @@ function CabView:vehicleCameraUpdate(superFunc, dt)
 	if self.vehicle.spec_universalPassenger ~= nil then
 		if g_universalPassenger.currentPassengerVehicle ~= nil then
 			if self.vehicle == g_universalPassenger.currentPassengerVehicle then
-				--print("Universal Passenger")
+				-- print("Universal Passenger")
 				return superFunc(self, dt)
 			end
 		end
 	end
 	
 	-- RESET VIEW IF REQUIRED
-	spec = self.vehicle.spec_cabView
 	if self.isInside and spec.resetView then
+		-- print("RESET VIEW")
 		self.rotX = spec.originalRotX
 		self.rotY = spec.originalRotY
 		self.rotZ = spec.originalRotZ
@@ -256,7 +265,7 @@ function CabView:vehicleCameraUpdate(superFunc, dt)
         end
         self.transX, self.transY, self.transZ = self.transDirX*self.zoom, self.transDirY*self.zoom, self.transDirZ*self.zoom
 		if self.isInside then
-			CabView.isInsideCamera = true
+			spec.isInsideCamera = true
 			local limit = 0.4
 			local totalSide = 0
 			local totalForward = 0
@@ -264,44 +273,44 @@ function CabView:vehicleCameraUpdate(superFunc, dt)
 			local angle = MathUtil.clamp(self.rotY-(math.pi+spec.rotationOffset), -math.pi, math.pi)
 
 			-- INCREASE/DECREASE LEANING based on control inputs
-			if CabView.leanButtonPressed then
-				if CabView.lean < limit then
-					CabView.lean = CabView.lean + dt/1000
+			if spec.leanButtonPressed then
+				if spec.lean < limit then
+					spec.lean = spec.lean + dt/1000
 				end
 			else
-				if CabView.lean > 0 then
-					CabView.lean = CabView.lean - dt/1000
+				if spec.lean > 0 then
+					spec.lean = spec.lean - dt/1000
 				end
 			end
 			
 			if math.abs(angle) <= math.pi/2 then
 			-- ADD LEANING FORWARD in the direction player is looking
-				--print("LOOK FORWARD/SIDE")
+				-- print("LOOK FORWARD/SIDE")
 				if angle>0 then
-					totalSide = math.sin(angle)*CabView.lean
+					totalSide = math.sin(angle)*spec.lean
 				end
 				if angle<0 then
-					totalSide = math.sin(angle)*CabView.lean
+					totalSide = math.sin(angle)*spec.lean
 				end
-				totalForward =  math.cos(angle)*CabView.lean
+				totalForward =  math.cos(angle)*spec.lean
 			else
 			-- ADD AUTOMATIC LEANING if looking more than 90 degrees left or right
-				--print("LOOK BACK")
+				-- print("LOOK BACK")
 				local autoLean = 0
 				if angle>math.pi/2 then
-					--print("LEAN LEFT")
+					-- print("LEAN LEFT")
 					autoLean = (angle-math.pi/2)/(2*math.pi)
-					totalSide = autoLean + math.sin(angle)*CabView.lean
+					totalSide = autoLean + math.sin(angle)*spec.lean
 				end
 				if angle<-math.pi/2 then
-					--print("LEAN RIGHT")
+					-- print("LEAN RIGHT")
 					autoLean = (angle+math.pi/2)/(2*math.pi)
-					totalSide = autoLean + math.sin(angle)*CabView.lean
+					totalSide = autoLean + math.sin(angle)*spec.lean
 				end
 				if spec.restrictLean then
 					totalForward = 0
 				else
-					totalForward = math.cos(angle)*CabView.lean/2
+					totalForward = math.cos(angle)*spec.lean/2
 				end
 			end
 			
@@ -312,9 +321,9 @@ function CabView:vehicleCameraUpdate(superFunc, dt)
 				self.transZ = self.transZ + totalSide*math.sin(-spec.rotationOffset) + totalForward*math.cos(-spec.rotationOffset)
 			end
 		else
-			CabView.isInsideCamera = false
-			CabView.leanButtonPressed = false
-			CabView.lean = 0
+			spec.isInsideCamera = false
+			spec.leanButtonPressed = false
+			spec.lean = 0
 		end
         setTranslation(self.cameraPositionNode, self.transX, self.transY, self.transZ)
         if self.positionSmoothingParameter > 0 then
@@ -348,33 +357,5 @@ function CabView:vehicleCameraUpdate(superFunc, dt)
     end
 end
 
-function CabView:loadMap(name)
-	--print("Load Mod: 'CabView'")
-	VehicleCamera.update = Utils.overwrittenFunction(VehicleCamera.update, CabView.vehicleCameraUpdate)
-
-	CabView.isInsideCamera = false
-	CabView.leanButtonPressed = false
-	CabView.lean = 0
-	CabView.initialised = false
-end
-
-function CabView:deleteMap()
-end
-
-function CabView:mouseEvent(posX, posY, isDown, isUp, button)
-end
-
-function CabView:keyEvent(unicode, sym, modifier, isDown)
-end
-
-function CabView:draw()
-end
-
-function CabView:update(dt)
-	if not CabView.initialised then
-		--DO THIS HERE SO IT HAPPENS AFTER MAP HAS LOADED
-		if g_gameStateManager:getGameState()==GameState.PLAY then
-			CabView.initialised = true
-		end
-	end
-end
+-- print("  Loaded Mod: 'CabView'")
+VehicleCamera.update = Utils.overwrittenFunction(VehicleCamera.update, CabView.vehicleCameraUpdate)
